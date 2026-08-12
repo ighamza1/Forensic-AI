@@ -1,0 +1,158 @@
+# =========================================================
+# FAI - Forensic AI
+# Git Ignore Configuration
+# =========================================================
+
+
+# =========================================================
+# PYTHON
+# =========================================================
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+
+# =========================================================
+# PYTHON PACKAGING
+# =========================================================
+
+*.egg-info/
+.eggs/
+wheels/
+
+
+# =========================================================
+# PYINSTALLER
+# =========================================================
+
+# Generated PyInstaller folders
+build/
+dist/
+
+# Keep FAI_Backend.spec
+*.spec.bak
+
+
+# =========================================================
+# FLASK / RUNTIME DATA
+# =========================================================
+
+# Uploaded evidence images
+static/uploads/
+
+# Generated PDF reports
+static/*.pdf
+static/**/*.pdf
+
+# Runtime application data
+runtime_data/
+app_data/
+data/
+logs/
+
+# Runtime generated files
+*.log
+*.tmp
+*.temp
+
+
+# =========================================================
+# DATASETS
+# =========================================================
+
+datasets/
+dataset/
+
+data/raw/
+data/processed/
+
+*.csv
+*.zip
+*.rar
+*.7z
+*.tar
+*.tar.gz
+
+
+# =========================================================
+# MACHINE LEARNING MODELS
+# =========================================================
+
+# IMPORTANT:
+# .pth files are intentionally NOT ignored.
+# Trained models are tracked using Git LFS.
+
+# DO NOT add:
+# *.pth
+
+
+# =========================================================
+# ELECTRON
+# =========================================================
+
+# Node dependencies
+electron/node_modules/
+
+# Electron generated builds
+electron/dist/
+electron/build/
+
+# Generated Electron backend
+electron/backend/
+
+# Electron caches
+electron/.cache/
+
+# Generated PyInstaller backend
+electron/backend/FAI_Backend/
+
+# Electron runtime uploads
+electron/backend/static/uploads/
+
+# Electron generated PDF reports
+electron/backend/static/*.pdf
+electron/backend/static/**/*.pdf
+
+
+# =========================================================
+# GENERATED INSTALLERS
+# =========================================================
+
+*Setup*.exe
+*.blockmap
+
+
+# =========================================================
+# WINDOWS
+# =========================================================
+
+Thumbs.db
+Desktop.ini
+
+
+# =========================================================
+# VS CODE
+# =========================================================
+
+.vscode/*
+!.vscode/settings.json
+
+
+# =========================================================
+# OS / EDITOR
+# =========================================================
+
+.DS_Store
+*.swp
+*.swo
