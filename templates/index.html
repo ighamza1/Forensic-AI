@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FAI - Forensic AI</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<!-- ===================================== -->
+<!-- HEADER -->
+<!-- ===================================== -->
+
+<header>
+
+<div class="container">
+
+<nav>
+
+<div class="logo">
+
+<img src="{{ url_for('static',filename='images/logo.png') }}"
+class="logo-img">
+
+<div>
+
+<h1>FAI</h1>
+
+<p>Forensic AI</p>
+
+</div>
+
+</div>
+
+<div class="menu">
+
+<a href="#">Home</a>
+<a href="#">About</a>
+<a href="#">Documentation</a>
+
+</div>
+
+</nav>
+
+</div>
+
+</header>
+
+
+<!-- ===================================== -->
+<!-- HERO -->
+<!-- ===================================== -->
+
+<section class="hero">
+
+<div class="hero-overlay">
+
+<div class="container">
+
+<h2>
+
+AI-Based Digital Image Authentication
+
+</h2>
+
+<p>
+
+Detect AI Generated Images, DeepFake and FaceSwap attacks
+using Deep Learning & Digital Forensics.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ===================================== -->
+<!-- UPLOAD -->
+<!-- ===================================== -->
+
+<section class="upload-section">
+
+<div class="container">
+
+<form id="uploadForm"
+action="/predict"
+method="POST"
+enctype="multipart/form-data">
+
+<div class="upload-card" id="drop-area">
+
+<i class="fa-solid fa-cloud-arrow-up"></i>
+
+<h2>Upload Evidence Image</h2>
+
+<p>Drag & Drop or Browse</p>
+
+<input
+type="file"
+id="imageInput"
+name="image"
+accept=".jpg,.jpeg,.png"
+hidden
+required>
+
+<button
+type="button"
+id="browseBtn">
+
+Browse Files
+
+</button>
+
+<button
+type="submit"
+id="analyzeBtn">
+
+Analyze Image
+
+</button>
+
+</div>
+
+</form>
+
+
+<!-- ===================================== -->
+<!-- IMAGE PREVIEW -->
+<!-- ===================================== -->
+
+<div class="preview-section">
+
+<div class="preview-card">
+
+<h3>Image Preview</h3>
+
+{% if image_path %}
+
+<img
+id="previewImage"
+src="{{ url_for('uploaded_file', filename=filename) }}"
+style="display:block">
+
+{% else %}
+
+<img
+id="previewImage">
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ===================================== -->
+<!-- REPORT -->
+<!-- ===================================== -->
+
+{% if image_path %}
+
+<section class="results-section">
+
+<div class="container">
+
+<h2 class="report-title">
+
+<i class="fa-solid fa-shield-halved"></i>
+
+Forensic AI Analysis Report
+
+</h2>
+
+<div class="report-grid">
+
+
+<!-- Evidence -->
+
+<div class="report-card">
+
+<h3>Evidence Image</h3>
+
+<img
+class="report-image"
+src="{{ url_for('uploaded_file', filename=filename) }}"
+
+</div>
+
+
+<!-- Summary -->
+
+<div class="report-card">
+
+<h3>Detection Summary</h3>
+
+<div class="summary-row">
+
+<span>Status</span>
+
+<strong class="{{ real_fake|lower }}">
+
+{{ real_fake }}
+
+</strong>
+
+</div>
+
+<div class="summary-row">
+
+<span>Manipulation</span>
+
+<strong>{{ manipulation }}</strong>
+
+</div>
+
+<div class="summary-row">
+
+<span>Confidence</span>
+
+<strong>{{ real_fake_confidence }}%</strong>
+
+</div>
+
+<div class="summary-row">
+
+<span>Manipulation Confidence</span>
+
+<strong>
+
+{% if manipulation == "Not Applicable" %}
+
+N/A
+
+{% else %}
+
+{{ manipulation_confidence }}%
+
+{% endif %}
+
+</strong>
+
+</div>
+
+</div>
+
+
+<!-- Metadata -->
+
+<div class="report-card">
+
+<h3>Image Metadata</h3>
+
+<div class="summary-row">
+
+<span>Resolution</span>
+
+<strong>{{ width }} × {{ height }}</strong>
+
+</div>
+
+<div class="summary-row">
+
+<span>File Size</span>
+
+<strong>{{ file_size }} MB</strong>
+
+</div>
+
+<div class="summary-row">
+
+<span>Format</span>
+
+<strong>{{ image_format }}</strong>
+
+</div>
+
+<div class="summary-row">
+
+<span>Color Mode</span>
+
+<strong>{{ color_mode }}</strong>
+
+</div>
+
+<div class="summary-row">
+
+<span>Inference</span>
+
+<strong>{{ inference_time }} sec</strong>
+
+</div>
+
+</div>
+
+
+<!-- Recommendation -->
+
+<div class="report-card">
+
+<h3>Recommendation</h3>
+
+{% if real_fake=="Real" %}
+
+<p>
+
+The uploaded image appears authentic.
+No evidence of manipulation detected.
+
+</p>
+
+{% elif manipulation=="AI Generated" %}
+
+<p>
+
+This image appears to be AI Generated.
+
+</p>
+
+{% elif manipulation=="DeepFake" %}
+
+<p>
+
+DeepFake manipulation detected.
+
+</p>
+
+{% else %}
+
+<p>
+
+FaceSwap manipulation detected.
+
+</p>
+
+{% endif %}
+
+</div>
+
+</div>
+
+
+<!-- Confidence -->
+
+<div class="report-card confidence-card">
+
+<h3>Overall Confidence</h3>
+
+<div class="progress">
+
+<div
+class="progress-fill"
+style="width:{{ real_fake_confidence }}%">
+
+</div>
+
+</div>
+
+<h2>{{ real_fake_confidence }}%</h2>
+
+</div>
+
+
+<!-- Timeline -->
+
+<div class="report-card">
+
+<h3>Analysis Timeline</h3>
+
+<ul class="timeline">
+
+<li>✓ Upload Completed</li>
+
+<li>✓ Metadata Extraction</li>
+
+<li>✓ Real/Fake Detection</li>
+
+{% if real_fake=="Fake" %}
+<li>✓ Manipulation Detection</li>
+{% endif %}
+
+<li>✓ Report Generated</li>
+
+</ul>
+
+</div>
+
+
+<div class="download-area">
+
+<a href="/download_report" class="download-btn">
+
+<i class="fa-solid fa-file-pdf"></i>
+
+Download PDF Report
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+{% endif %}
+
+
+<!-- ===================================== -->
+<!-- LOADING -->
+<!-- ===================================== -->
+
+<div id="loading">
+
+<div class="loader"></div>
+
+<h2>Analyzing Image...</h2>
+
+<p>Please wait while our AI processes the evidence.</p>
+
+</div>
+
+
+<script src="{{ url_for('static',filename='js/app.js') }}"></script>
+
+</body>
+
+</html>
