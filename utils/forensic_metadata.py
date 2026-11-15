@@ -1,4 +1,4 @@
- import hashlib
+import hashlib
 import os
 from PIL import Image
 from PIL.ExifTags import TAGS
@@ -8,28 +8,33 @@ from PIL.ExifTags import TAGS
 # Generate File Hashes
 # ==========================================
 
-def generate_hashes(file_path):
 
-    hashes = {
-        "md5": None,
-        "sha1": None,
-        "sha256": None
+import hashlib
+
+def generate_hashes(file_path):
+    """Calculate MD5, SHA-1 and SHA-256 from the original file bytes."""
+
+    hashers = {
+        "md5": hashlib.md5(),
+        "sha1": hashlib.sha1(),
+        "sha256": hashlib.sha256()
     }
 
+    with open(file_path, "rb") as image_file:
+        while True:
+            chunk = image_file.read(1024 * 1024)
 
-    with open(file_path, "rb") as file:
+            if not chunk:
+                break
 
-        data = file.read()
+            for hasher in hashers.values():
+                hasher.update(chunk)
 
+    return {
+        name: hasher.hexdigest()
+        for name, hasher in hashers.items()
+    }
 
-        hashes["md5"] = hashlib.md5(data).hexdigest()
-
-        hashes["sha1"] = hashlib.sha1(data).hexdigest()
-
-        hashes["sha256"] = hashlib.sha256(data).hexdigest()
-
-
-    return hashes
 
 
 

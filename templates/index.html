@@ -1,449 +1,768 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAI | Forensic AI</title>
 
-<title>FAI - Forensic AI</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-<link rel="stylesheet"
-href="{{ url_for('static', filename='css/style.css') }}">
-
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/variables.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
-<!-- ===================================== -->
-<!-- HEADER -->
-<!-- ===================================== -->
+    <!-- Background Effects -->
+    <div class="background-effects" aria-hidden="true">
+        <div class="glow glow-one"></div>
+        <div class="glow glow-two"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="topbar">
+        <div class="container">
+            <nav class="navbar">
+
+                <a href="#" class="brand">
+                    <div class="brand-logo">
+                        <img
+                            src="{{ url_for('static', filename='images/logo.png') }}"
+                            alt="FAI Logo"
+                        >
+                    </div>
+
+                    <div class="brand-text">
+                        <h1>FORENSIC AI</h1>
+                        <span>Digital Forensic Intelligence</span>
+                    </div>
+                </a>
+
+                <div class="nav-links">
+                    <a href="#diagnostics" class="nav-link active">
+                        <i class="fa-solid fa-microchip"></i>
+                        Diagnostics
+                    </a>
+
+                    <a href="#telemetry" class="nav-link">
+                        <i class="fa-solid fa-chart-line"></i>
+                        Analysis
+                    </a>
+
+                    <a href="#protocol" class="nav-link">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        Protocol
+                    </a>
+                </div>
+
+                <div class="system-status">
+                    <span class="status-indicator"></span>
+                    <span>ENGINE ONLINE</span>
+                </div>
+
+            </nav>
+        </div>
+    </header>
+
+
+    <main>
+
+        <!-- Hero -->
+        <section class="hero" id="diagnostics">
+            <div class="container">
+
+                <div class="hero-content">
+
+                    <div class="eyebrow">
+                        <span class="eyebrow-icon">
+                            <i class="fa-solid fa-shield-virus"></i>
+                        </span>
+                        AI-POWERED DIGITAL FORENSICS
+                    </div>
+
+                    <h2>
+                        Examine Digital Evidence.
+                        <span>Identify Image Manipulation.</span>
+                    </h2>
+
+                    <p>
+                        Forensic AI uses a two-stage deep learning pipeline
+                        to examine human face images and identify potential
+                        synthetic generation and manipulation.
+                    </p>
+
+                    <div class="hero-tags">
+                        <span><i class="fa-solid fa-brain"></i> ResNet-50</span>
+                        <span><i class="fa-solid fa-image"></i> Image Analysis</span>
+                        <span><i class="fa-solid fa-fingerprint"></i> Hash Verification</span>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- Upload Section -->
+        <section class="upload-section">
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">EVIDENCE PROCESSING</span>
+                        <h2>Upload Evidence</h2>
+                        <p>Submit an image for automated forensic examination.</p>
+                    </div>
+
+                    <div class="section-number">01 / INGESTION</div>
+                </div>
+
+
+                <form
+                    id="uploadForm"
+                    action="{{ url_for('predict') }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
 
-<header>
+                    <div class="upload-card" id="drop-area">
 
-<div class="container">
+                        <div class="upload-decoration decoration-one"></div>
+                        <div class="upload-decoration decoration-two"></div>
 
-<nav>
+                        <div class="upload-icon">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
 
-<div class="logo">
+                        <h3>Drop your evidence here</h3>
 
-<img src="{{ url_for('static',filename='images/logo.png') }}"
-class="logo-img">
+                        <p>
+                            Drag and drop an image or browse your device
+                            to select an evidence file.
+                        </p>
 
-<div>
+                        <div class="supported-formats">
+                            <span>SUPPORTED FORMATS</span>
+                            <div>
+                                <span>JPG</span>
+                                <span>JPEG</span>
+                                <span>PNG</span>
+                            </div>
+                        </div>
 
-<h1>FAI</h1>
+                        <input
+                            type="file"
+                            id="imageInput"
+                            name="image"
+                            accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                            hidden
+                            required
+                        >
 
-<p>Forensic AI</p>
+                        <div class="upload-actions">
 
-</div>
+                            <button type="button" id="browseBtn" class="btn btn-secondary">
+                                <i class="fa-solid fa-folder-open"></i>
+                                Browse Files
+                            </button>
 
-</div>
+                            <button type="submit" id="analyzeBtn" class="btn btn-primary">
+                                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                                Analyze Evidence
+                            </button>
 
-<div class="menu">
+                        </div>
 
-<a href="#">Home</a>
-<a href="#">About</a>
-<a href="#">Documentation</a>
+                        <div id="selectedFile" class="selected-file" hidden>
+                            <i class="fa-solid fa-file-image"></i>
+                            <span id="selectedFileName"></span>
+                            <button type="button" id="removeFile" aria-label="Remove selected file">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
 
-</div>
+                        <p id="uploadError" class="upload-error" role="alert"></p>
 
-</nav>
+                    </div>
 
-</div>
+                </form>
 
-</header>
 
+                <!-- Preview -->
+                <div class="preview-section">
 
-<!-- ===================================== -->
-<!-- HERO -->
-<!-- ===================================== -->
+                    <div class="preview-heading">
+                        <div>
+                            <span class="section-kicker">SOURCE IMAGE</span>
+                            <h3>Evidence Preview</h3>
+                        </div>
 
-<section class="hero">
+                        <span class="preview-status">
+                            <span class="status-indicator"></span>
+                            IMAGE BUFFER
+                        </span>
+                    </div>
 
-<div class="hero-overlay">
+                    <div class="preview-card">
 
-<div class="container">
+                        <div class="preview-empty" id="previewPlaceholder">
+                            <i class="fa-regular fa-image"></i>
+                            <p>Image preview will appear here</p>
+                            <span>Awaiting evidence input</span>
+                        </div>
 
-<h2>
+                        <img
+                            id="previewImage"
+                            alt="Selected evidence preview"
+                            {% if image_path %}
+                            src="{{ url_for('uploaded_file', filename=filename) }}"
+                            {% endif %}
+                        >
 
-AI-Based Digital Image Authentication
+                    </div>
 
-</h2>
+                </div>
 
-<p>
+            </div>
+        </section>
 
-Detect AI Generated Images, DeepFake and FaceSwap attacks
-using Deep Learning & Digital Forensics.
 
-</p>
+        <!-- Analysis Results -->
+        {% if image_path %}
 
-</div>
+        <section class="results-section" id="telemetry">
 
-</div>
+            <div class="container">
 
-</section>
+                <div class="section-heading results-heading">
 
+                    <div>
+                        <span class="section-kicker">EXAMINATION OUTPUT</span>
+                        <h2>Forensic Analysis</h2>
+                        <p>Automated examination results for the submitted image.</p>
+                    </div>
 
-<!-- ===================================== -->
-<!-- UPLOAD -->
-<!-- ===================================== -->
+                    <div class="case-reference">
+                        <span>CASE REFERENCE</span>
+                        <strong>{{ filename }}</strong>
+                    </div>
 
-<section class="upload-section">
+                </div>
 
-<div class="container">
 
-<form id="uploadForm"
-action="/predict"
-method="POST"
-enctype="multipart/form-data">
+                <!-- Main Results -->
+                <div class="results-grid">
 
-<div class="upload-card" id="drop-area">
+                    <!-- Evidence Image -->
+                    <div class="glass-card evidence-card">
 
-<i class="fa-solid fa-cloud-arrow-up"></i>
+                        <div class="card-heading">
+                            <div class="card-icon">
+                                <i class="fa-regular fa-image"></i>
+                            </div>
 
-<h2>Upload Evidence Image</h2>
+                            <div>
+                                <h3>Examined Image</h3>
+                                <span>Original uploaded evidence</span>
+                            </div>
+                        </div>
 
-<p>Drag & Drop or Browse</p>
+                        <div class="result-image-wrap">
+                            <img
+                                class="report-image"
+                                src="{{ url_for('uploaded_file', filename=filename) }}"
+                                alt="Examined evidence image"
+                            >
+                        </div>
 
-<input
-type="file"
-id="imageInput"
-name="image"
-accept=".jpg,.jpeg,.png"
-hidden
-required>
+                        <div class="evidence-caption">
+                            <i class="fa-solid fa-file-image"></i>
+                            {{ filename }}
+                        </div>
 
-<button
-type="button"
-id="browseBtn">
+                    </div>
 
-Browse Files
 
-</button>
+                    <!-- Detection Results -->
+                    <div class="glass-card">
 
-<button
-type="submit"
-id="analyzeBtn">
+                        <div class="card-heading">
+                            <div class="card-icon">
+                                <i class="fa-solid fa-brain"></i>
+                            </div>
 
-Analyze Image
+                            <div>
+                                <h3>Detection Verdict</h3>
+                                <span>Model classification output</span>
+                            </div>
+                        </div>
 
-</button>
 
-</div>
+                        <div class="verdict-block">
 
-</form>
+                            <span class="field-label">REAL / FAKE CLASSIFICATION</span>
 
+                            <div class="verdict-value
+                                {% if real_fake == 'Real' %}
+                                    verdict-real
+                                {% else %}
+                                    verdict-fake
+                                {% endif %}
+                            ">
+                                <span class="verdict-dot"></span>
+                                {{ real_fake }}
+                            </div>
 
-<!-- ===================================== -->
-<!-- IMAGE PREVIEW -->
-<!-- ===================================== -->
+                        </div>
 
-<div class="preview-section">
 
-<div class="preview-card">
+                        <div class="data-row">
+                            <span>Manipulation Category</span>
+                            <strong>{{ manipulation }}</strong>
+                        </div>
 
-<h3>Image Preview</h3>
+                        <div class="data-row">
+                            <span>Classification Confidence</span>
+                            <strong>{{ real_fake_confidence }}%</strong>
+                        </div>
 
-{% if image_path %}
+                        <div class="data-row">
+                            <span>Secondary Model Confidence</span>
+                            <strong>
+                                {% if manipulation == "Not Applicable" %}
+                                    N/A
+                                {% else %}
+                                    {{ manipulation_confidence }}%
+                                {% endif %}
+                            </strong>
+                        </div>
 
-<img
-id="previewImage"
-src="{{ url_for('uploaded_file', filename=filename) }}"
-style="display:block">
+                        <div class="confidence-meter">
 
-{% else %}
+                            <div class="meter-label">
+                                <span>Primary Model Score</span>
+                                <strong>{{ real_fake_confidence }}%</strong>
+                            </div>
 
-<img
-id="previewImage">
+                            <div class="progress">
+                                <div
+                                    class="progress-fill"
+                                    data-progress="{{ real_fake_confidence }}"
+                                ></div>
+                            </div>
 
-{% endif %}
+                        </div>
 
-</div>
+                    </div>
 
-</div>
 
-</div>
+                    <!-- Metadata -->
+                    <div class="glass-card">
 
-</section>
+                        <div class="card-heading">
+                            <div class="card-icon">
+                                <i class="fa-solid fa-server"></i>
+                            </div>
 
+                            <div>
+                                <h3>Image Metadata</h3>
+                                <span>Image file properties</span>
+                            </div>
+                        </div>
+
+                        <div class="data-row">
+                            <span>Image Dimensions</span>
+                            <strong>{{ width }} × {{ height }} px</strong>
+                        </div>
 
-<!-- ===================================== -->
-<!-- REPORT -->
-<!-- ===================================== -->
+                        <div class="data-row">
+                            <span>File Size</span>
+                            <strong>{{ file_size }} MB</strong>
+                        </div>
 
-{% if image_path %}
+                        <div class="data-row">
+                            <span>Image Format</span>
+                            <strong>{{ image_format }}</strong>
+                        </div>
+
+                        <div class="data-row">
+                            <span>Color Mode</span>
+                            <strong>{{ color_mode }}</strong>
+                        </div>
+
+                        <div class="data-row">
+                            <span>Inference Time</span>
+                            <strong>{{ inference_time }} sec</strong>
+                        </div>
 
-<section class="results-section">
+                    </div>
 
-<div class="container">
 
-<h2 class="report-title">
+                    <!-- Risk Assessment -->
+                    <div class="glass-card">
 
-<i class="fa-solid fa-shield-halved"></i>
+                        <div class="card-heading">
+                            <div class="card-icon warning-icon">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            </div>
 
-Forensic AI Analysis Report
+                            <div>
+                                <h3>Analysis Assessment</h3>
+                                <span>Preliminary interpretation</span>
+                            </div>
+                        </div>
 
-</h2>
 
-<div class="report-grid">
+                        {% if real_fake == "Real" %}
 
+                            <div class="assessment-label assessment-low">
+                                <i class="fa-solid fa-circle-check"></i>
+                                LOW RISK CATEGORY
+                            </div>
 
-<!-- Evidence -->
+                            <p class="assessment-text">
+                                The primary model classified the submitted
+                                image as Real. No secondary manipulation
+                                classification was performed. This automated
+                                result should not be treated as conclusive
+                                proof of authenticity.
+                            </p>
 
-<div class="report-card">
+                        {% elif manipulation == "AI Generated" %}
 
-<h3>Evidence Image</h3>
+                            <div class="assessment-label assessment-medium">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                MEDIUM RISK CATEGORY
+                            </div>
 
-<img
-class="report-image"
-src="{{ url_for('uploaded_file', filename=filename) }}"
+                            <p class="assessment-text">
+                                The system classified the image as AI Generated.
+                                The result indicates that the image may contain
+                                characteristics associated with synthetic
+                                image generation. Independent verification
+                                is recommended.
+                            </p>
 
-</div>
+                        {% elif manipulation == "DeepFake" %}
 
+                            <div class="assessment-label assessment-high">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                HIGH RISK CATEGORY
+                            </div>
 
-<!-- Summary -->
+                            <p class="assessment-text">
+                                The system classified the image as DeepFake.
+                                This indicates potential facial manipulation
+                                according to the trained model. Further
+                                examination and independent verification
+                                are recommended.
+                            </p>
 
-<div class="report-card">
+                        {% elif manipulation == "FaceSwap" %}
 
-<h3>Detection Summary</h3>
+                            <div class="assessment-label assessment-high">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                HIGH RISK CATEGORY
+                            </div>
 
-<div class="summary-row">
+                            <p class="assessment-text">
+                                The system classified the image as FaceSwap.
+                                The result indicates potential face replacement
+                                or manipulation according to the trained model.
+                                Further examination is recommended.
+                            </p>
 
-<span>Status</span>
+                        {% else %}
 
-<strong class="{{ real_fake|lower }}">
+                            <div class="assessment-label assessment-neutral">
+                                <i class="fa-solid fa-circle-info"></i>
+                                REVIEW REQUIRED
+                            </div>
 
-{{ real_fake }}
+                            <p class="assessment-text">
+                                The system returned a classification requiring
+                                further examination. Review the model outputs
+                                and supporting evidence before drawing conclusions.
+                            </p>
 
-</strong>
+                        {% endif %}
 
-</div>
+                        <div class="assessment-disclaimer">
+                            Automated classification is an investigative aid,
+                            not a legal determination or standalone proof.
+                        </div>
 
-<div class="summary-row">
+                    </div>
 
-<span>Manipulation</span>
+                </div>
 
-<strong>{{ manipulation }}</strong>
 
-</div>
+                <!-- Hash Section -->
+                <div class="glass-card hash-card">
 
-<div class="summary-row">
+                    <div class="card-heading">
 
-<span>Confidence</span>
+                        <div class="card-icon">
+                            <i class="fa-solid fa-fingerprint"></i>
+                        </div>
 
-<strong>{{ real_fake_confidence }}%</strong>
+                        <div>
+                            <h3>Cryptographic Hashes</h3>
+                            <span>Calculated from the original uploaded file</span>
+                        </div>
 
-</div>
+                    </div>
 
-<div class="summary-row">
 
-<span>Manipulation Confidence</span>
+                    <div class="hash-entry">
 
-<strong>
+                        <div class="hash-label">
+                            <span>MD5</span>
+                            <button type="button" class="copy-button" data-copy="md5">
+                                <i class="fa-regular fa-copy"></i>
+                                Copy
+                            </button>
+                        </div>
 
-{% if manipulation == "Not Applicable" %}
+                        <code id="hash-md5">{{ hashes.md5 }}</code>
 
-N/A
+                    </div>
 
-{% else %}
 
-{{ manipulation_confidence }}%
+                    <div class="hash-entry">
 
-{% endif %}
+                        <div class="hash-label">
+                            <span>SHA-1</span>
+                            <button type="button" class="copy-button" data-copy="sha1">
+                                <i class="fa-regular fa-copy"></i>
+                                Copy
+                            </button>
+                        </div>
 
-</strong>
+                        <code id="hash-sha1">{{ hashes.sha1 }}</code>
 
-</div>
+                    </div>
 
-</div>
 
+                    <div class="hash-entry">
 
-<!-- Metadata -->
+                        <div class="hash-label">
+                            <span>SHA-256</span>
+                            <button type="button" class="copy-button" data-copy="sha256">
+                                <i class="fa-regular fa-copy"></i>
+                                Copy
+                            </button>
+                        </div>
 
-<div class="report-card">
+                        <code id="hash-sha256">{{ hashes.sha256 }}</code>
 
-<h3>Image Metadata</h3>
+                    </div>
 
-<div class="summary-row">
 
-<span>Resolution</span>
+                    <div class="hash-note">
+                        <i class="fa-solid fa-circle-info"></i>
+                        These hashes identify the uploaded file's byte content.
+                        Recalculating a hash later can help detect changes to
+                        the file, provided the original hash is securely retained.
+                    </div>
 
-<strong>{{ width }} × {{ height }}</strong>
+                </div>
 
-</div>
 
-<div class="summary-row">
+                <!-- Examination Steps -->
+                <div class="glass-card protocol-card" id="protocol">
 
-<span>File Size</span>
+                    <div class="card-heading">
+                        <div class="card-icon">
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
 
-<strong>{{ file_size }} MB</strong>
+                        <div>
+                            <h3>Examination Processing Steps</h3>
+                            <span>Processing stages recorded by the application</span>
+                        </div>
+                    </div>
 
-</div>
 
-<div class="summary-row">
+                    <div class="timeline">
 
-<span>Format</span>
+                        <div class="timeline-item">
+                            <span class="timeline-check">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <div>
+                                <strong>Evidence File Uploaded</strong>
+                                <p>The submitted image was received by the application.</p>
+                            </div>
+                        </div>
 
-<strong>{{ image_format }}</strong>
+                        <div class="timeline-item">
+                            <span class="timeline-check">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <div>
+                                <strong>Image Properties Processed</strong>
+                                <p>Image dimensions, format, size and color mode were obtained.</p>
+                            </div>
+                        </div>
 
-</div>
+                        <div class="timeline-item">
+                            <span class="timeline-check">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <div>
+                                <strong>Primary Classification Executed</strong>
+                                <p>The Real vs Fake model processed the image.</p>
+                            </div>
+                        </div>
 
-<div class="summary-row">
+                        {% if real_fake == "Fake" %}
 
-<span>Color Mode</span>
+                        <div class="timeline-item">
+                            <span class="timeline-check">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <div>
+                                <strong>Secondary Classification Executed</strong>
+                                <p>The manipulation classification model processed the image.</p>
+                            </div>
+                        </div>
 
-<strong>{{ color_mode }}</strong>
+                        {% endif %}
 
-</div>
+                        <div class="timeline-item">
+                            <span class="timeline-check">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <div>
+                                <strong>Cryptographic Hashes Generated</strong>
+                                <p>MD5, SHA-1 and SHA-256 values were calculated.</p>
+                            </div>
+                        </div>
 
-<div class="summary-row">
+                        <div class="timeline-item">
+                            <span class="timeline-check">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <div>
+                                <strong>Report Available</strong>
+                                <p>The application provides a PDF report for this examination.</p>
+                            </div>
+                        </div>
 
-<span>Inference</span>
+                    </div>
 
-<strong>{{ inference_time }} sec</strong>
+                </div>
 
-</div>
 
-</div>
+                <!-- PDF Export -->
+                <div class="export-panel">
 
+                    <div class="export-icon">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </div>
 
-<!-- Recommendation -->
+                    <div class="export-text">
+                        <h3>Export Examination Report</h3>
+                        <p>Generate and download the forensic analysis PDF.</p>
+                    </div>
 
-<div class="report-card">
+                    <a href="{{ url_for('download_report') }}" class="download-btn">
+                        <i class="fa-solid fa-download"></i>
+                        Download PDF Report
+                    </a>
 
-<h3>Recommendation</h3>
+                </div>
 
-{% if real_fake=="Real" %}
 
-<p>
+            </div>
 
-The uploaded image appears authentic.
-No evidence of manipulation detected.
+        </section>
 
-</p>
+        {% endif %}
 
-{% elif manipulation=="AI Generated" %}
+    </main>
 
-<p>
 
-This image appears to be AI Generated.
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
 
-</p>
+            <div class="footer-content">
 
-{% elif manipulation=="DeepFake" %}
+                <div class="footer-brand">
+                    <img
+                        src="{{ url_for('static', filename='images/logo.png') }}"
+                        alt="FAI"
+                    >
+                    <div>
+                        <strong>FORENSIC AI</strong>
+                        <span>Digital Forensic System</span>
+                    </div>
+                </div>
 
-<p>
+                <p>
+                    AI-Based Digital Forensic System for Detecting
+                    AI-Generated and Manipulated Human Face Images.
+                </p>
 
-DeepFake manipulation detected.
+                <span class="footer-copy">
+                    © 2026 Forensic AI. All rights reserved.
+                </span>
 
-</p>
+            </div>
 
-{% else %}
+        </div>
+    </footer>
 
-<p>
 
-FaceSwap manipulation detected.
+    <!-- Loading Overlay -->
+    <div id="loading" class="loading-overlay" aria-live="polite">
 
-</p>
+        <div class="loading-box">
 
-{% endif %}
+            <div class="loader-ring">
+                <div class="loader-inner"></div>
+            </div>
 
-</div>
+            <span class="loading-kicker">FORENSIC PROCESSING</span>
 
-</div>
+            <h2>Analyzing Evidence</h2>
 
+            <p>
+                Running AI classification and forensic processing.
+                Please wait.
+            </p>
 
-<!-- Confidence -->
+            <div class="loading-progress">
+                <span></span>
+            </div>
 
-<div class="report-card confidence-card">
+        </div>
 
-<h3>Overall Confidence</h3>
+    </div>
 
-<div class="progress">
 
-<div
-class="progress-fill"
-style="width:{{ real_fake_confidence }}%">
+    <!-- Toast -->
+    <div id="toast" class="toast" role="status" aria-live="polite">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMessage">Copied successfully</span>
+    </div>
 
-</div>
 
-</div>
-
-<h2>{{ real_fake_confidence }}%</h2>
-
-</div>
-
-
-<!-- Timeline -->
-
-<div class="report-card">
-
-<h3>Analysis Timeline</h3>
-
-<ul class="timeline">
-
-<li>✓ Upload Completed</li>
-
-<li>✓ Metadata Extraction</li>
-
-<li>✓ Real/Fake Detection</li>
-
-{% if real_fake=="Fake" %}
-<li>✓ Manipulation Detection</li>
-{% endif %}
-
-<li>✓ Report Generated</li>
-
-</ul>
-
-</div>
-
-
-<div class="download-area">
-
-<a href="/download_report" class="download-btn">
-
-<i class="fa-solid fa-file-pdf"></i>
-
-Download PDF Report
-
-</a>
-
-</div>
-
-</div>
-
-</section>
-
-{% endif %}
-
-
-<!-- ===================================== -->
-<!-- LOADING -->
-<!-- ===================================== -->
-
-<div id="loading">
-
-<div class="loader"></div>
-
-<h2>Analyzing Image...</h2>
-
-<p>Please wait while our AI processes the evidence.</p>
-
-</div>
-
-
-<script src="{{ url_for('static',filename='js/app.js') }}"></script>
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 
 </body>
-
 </html>

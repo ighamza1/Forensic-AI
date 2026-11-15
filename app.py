@@ -712,7 +712,7 @@ from werkzeug.utils import secure_filename
 
 from utils.real_fake_model_loader import load_real_fake_model
 from utils.manipulation_model_loader import load_manipulation_model
-
+from utils.forensic_metadata import generate_hashes
 from utils.report_generator import generate_report
 
 
@@ -947,10 +947,22 @@ def predict():
     )
 
 
+
     file.save(
         filepath
     )
 
+    # =================================================
+    # Cryptographic Hash Generation
+    # =================================================
+
+    hashes = generate_hashes(filepath)
+
+    print("\nCRYPTOGRAPHIC HASHES")
+
+    print("MD5:", hashes["md5"])
+    print("SHA-1:", hashes["sha1"])
+    print("SHA-256:", hashes["sha256"])
 
     print("=" * 70)
 
@@ -1246,6 +1258,8 @@ def predict():
 
         "manipulation":
             manipulation_result,
+        "hashes":
+            hashes,
 
         "real_fake_confidence":
             round(
@@ -1317,6 +1331,8 @@ def predict():
         real_fake=real_fake_result,
 
         manipulation=manipulation_result,
+        
+        hashes=hashes,
 
         real_fake_confidence=
             round(

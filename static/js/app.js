@@ -1,5 +1,5 @@
 // =====================================================
-// FAI - File Upload & Drag/Drop Handler
+// FAI - Tactical Evidence Drag/Drop & Ingestion Engine
 // =====================================================
 
 const input = document.getElementById("imageInput");
@@ -9,248 +9,96 @@ const preview = document.getElementById("previewImage");
 const loading = document.getElementById("loading");
 const uploadForm = document.getElementById("uploadForm");
 
-
 // =====================================================
-// Browse Button
+// Browse Trigger
 // =====================================================
-
 if (browseBtn && input) {
-
     browseBtn.addEventListener("click", () => {
-
         input.click();
-
     });
-
 }
 
-
 // =====================================================
-// File Input Change
+// File Change Listener
 // =====================================================
-
 if (input) {
-
     input.addEventListener("change", () => {
-
         if (input.files && input.files.length > 0) {
-
             previewFile(input.files[0]);
-
         }
-
     });
-
 }
 
-
 // =====================================================
-// Drag Over
+// Drag & Drop Handling
 // =====================================================
-
 if (uploadCard) {
-
-    uploadCard.addEventListener("dragover", (event) => {
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-        uploadCard.classList.add("dragover");
-
+    ["dragover", "dragenter"].forEach(eventName => {
+        uploadCard.addEventListener(eventName, (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            uploadCard.classList.add("dragover");
+        });
     });
 
-
-    // =================================================
-    // Drag Enter
-    // =================================================
-
-    uploadCard.addEventListener("dragenter", (event) => {
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-        uploadCard.classList.add("dragover");
-
+    ["dragleave", "drop"].forEach(eventName => {
+        uploadCard.addEventListener(eventName, (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            uploadCard.classList.remove("dragover");
+        });
     });
-
-
-    // =================================================
-    // Drag Leave
-    // =================================================
-
-    uploadCard.addEventListener("dragleave", (event) => {
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-        uploadCard.classList.remove("dragover");
-
-    });
-
-
-    // =================================================
-    // Drop
-    // =================================================
 
     uploadCard.addEventListener("drop", (event) => {
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-        uploadCard.classList.remove("dragover");
-
-
         const files = event.dataTransfer.files;
-
-
-        if (!files || files.length === 0) {
-
-            return;
-
-        }
-
+        if (!files || files.length === 0) return;
 
         const file = files[0];
-
-
-        // ---------------------------------------------
-        // Validate File Type
-        // ---------------------------------------------
-
-        const allowedTypes = [
-
-            "image/jpeg",
-            "image/png"
-
-        ];
-
+        const allowedTypes = ["image/jpeg", "image/png"];
 
         if (!allowedTypes.includes(file.type)) {
-
-            alert(
-                "Unsupported image format. Please upload JPG, JPEG or PNG."
-            );
-
+            alert("ALERT: Invalid payload type. Upload JPG, JPEG or PNG only.");
             return;
-
         }
-
-
-        // ---------------------------------------------
-        // Put dropped file into file input
-        // ---------------------------------------------
 
         try {
-
             const dataTransfer = new DataTransfer();
-
             dataTransfer.items.add(file);
-
             input.files = dataTransfer.files;
-
+        } catch (error) {
+            console.error("Failed to map file to stream input:", error);
         }
-
-        catch (error) {
-
-            console.error(
-                "Could not assign dropped file:",
-                error
-            );
-
-        }
-
-
-        // ---------------------------------------------
-        // Preview
-        // ---------------------------------------------
 
         previewFile(file);
-
     });
-
 }
 
-
 // =====================================================
-// Preview File
+// Stream Preview Generator
 // =====================================================
-
 function previewFile(file) {
-
-    if (!file) {
-
+    if (!file || !file.type.startsWith("image/")) {
+        alert("ALERT: Incompatible file stream detected.");
         return;
-
     }
-
-
-    // ---------------------------------------------
-    // Validate Image
-    // ---------------------------------------------
-
-    if (!file.type.startsWith("image/")) {
-
-        alert(
-            "Please select a valid image file."
-        );
-
-        return;
-
-    }
-
-
-    // ---------------------------------------------
-    // Create Preview
-    // ---------------------------------------------
 
     const reader = new FileReader();
-
-
     reader.onload = function (event) {
-
         if (preview) {
-
             preview.src = event.target.result;
-
             preview.style.display = "block";
-
         }
-
     };
-
-
-    reader.onerror = function () {
-
-        console.error(
-            "Unable to read the selected image."
-        );
-
-    };
-
-
     reader.readAsDataURL(file);
-
 }
 
-
 // =====================================================
-// Show Loading Screen
+// Diagnostics HUD Display Trigger
 // =====================================================
-
 if (uploadForm) {
-
     uploadForm.addEventListener("submit", () => {
-
         if (loading) {
-
             loading.style.display = "flex";
-
         }
-
     });
-
 }

@@ -1,27 +1,63 @@
-:root{
 
-    --bg:#0D1117;
+:root {
 
-    --card:#161B22;
+    /* Background */
+    --bg-base: #080d19;
+    --bg-secondary: #0d1526;
 
-    --primary:#2563EB;
+    /* Glass surfaces */
+    --bg-glass: rgba(19, 30, 51, 0.60);
+    --bg-glass-strong: rgba(20, 34, 57, 0.78);
+    --bg-glass-light: rgba(255, 255, 255, 0.045);
 
-    --secondary:#1E293B;
+    /* Primary accent */
+    --primary: #55d6e8;
+    --primary-light: #8be9f2;
+    --primary-dark: #20a9c0;
+    --primary-glow: rgba(85, 214, 232, 0.20);
 
-    --success:#22C55E;
+    /* Status colors */
+    --success: #42d6a4;
+    --warning: #f5bd62;
+    --danger: #ff718a;
 
-    --danger:#EF4444;
+    --forensic-real: #42d6a4;
+    --forensic-fake: #ff718a;
+    --forensic-warning: #f5bd62;
 
-    --text:#F8FAFC;
+    /* Text */
+    --text-primary: #f1f5fb;
+    --text-secondary: #a3b1c7;
+    --text-muted: #718099;
 
-    --light:#94A3B8;
+    /* Borders */
+    --border-subtle: rgba(190, 215, 255, 0.10);
+    --border-glass: rgba(255, 255, 255, 0.12);
+    --border-active: rgba(85, 214, 232, 0.40);
 
-    --border:#2A3441;
+    /* Typography */
+    --font-sans: 'DM Sans', 'Space Grotesk', sans-serif;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
 
-    --radius:18px;
+    /* Radius */
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 22px;
+    --radius-xl: 28px;
 
-    --transition:.3s ease;
+    /* Shadows */
+    --shadow-card:
+        0 18px 45px rgba(0, 0, 0, 0.20);
 
-    --shadow:0 20px 50px rgba(0,0,0,.35);
+    --shadow-glass:
+        0 20px 60px rgba(0, 0, 0, 0.28);
+
+    --shadow-glow:
+        0 0 30px rgba(85, 214, 232, 0.12);
+
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-smooth: 0.35s ease;
 
 }
